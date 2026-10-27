@@ -1,0 +1,84 @@
+{
+  "users": [
+    {
+      "id": "usr_investigator_demo",
+      "name": "Lead Data Investigator",
+      "email": "investigator@fixora.io",
+      "password_hash": "$2b$10$Sj/KsqfHlq6e0X55rOc.R.9tKkajX/qWncShyfcNC3587cOUypRvG",
+      "role": "investigator",
+      "created_at": "2026-10-27T09:54:07.308Z",
+      "last_login_at": "2026-10-27T10:23:59.280Z"
+    },
+    {
+      "id": "usr_1793094847691_0c5d83d3",
+      "name": "Sarah Chen",
+      "email": "auditor_1793094847570@fixora.io",
+      "password_hash": "$2b$10$VIYXju/e2hIqXPQR4EKTTeSMG2sol6cUAx0NfV9aJm9/e6SfNYwlu",
+      "role": "auditor",
+      "created_at": "2026-10-27T09:54:07.691Z",
+      "last_login_at": "2026-10-27T09:54:08.034Z"
+    },
+    {
+      "id": "usr_1793096639563_e6a5ab86",
+      "name": "Sarah Chen",
+      "email": "auditor_1793096639418@fixora.io",
+      "password_hash": "$2b$10$GkSFkFfc.2/Fadx2G2ZnMuptKQtJ3.dMOaCW2tirOJfTrlZ5cpCe2",
+      "role": "auditor",
+      "created_at": "2026-10-27T10:23:59.563Z",
+      "last_login_at": "2026-10-27T10:23:59.999Z"
+    }
+  ],
+  "sessions": [
+    {
+      "session_id": "50a5fd8f694e5c4f94b2c61ac3afd3083507b1bb04174c0e9c42341d29609ad8",
+      "user_id": "usr_1793094847691_0c5d83d3",
+      "created_at": "2026-10-27T09:54:08.034Z",
+      "expires_at": "2026-10-28T09:54:08.034Z",
+      "remember_me": false
+    },
+    {
+      "session_id": "a6910edfde3f9770a5e2607e60bfdffb508671b6c74660c2c27959f624f30690",
+      "user_id": "usr_investigator_demo",
+      "created_at": "2026-10-27T10:23:59.279Z",
+      "expires_at": "2026-10-28T10:23:59.280Z",
+      "remember_me": false
+    },
+    {
+      "session_id": "2e3cb7b5a1891c107e18a47da3ee2651b8c21976a308c02cf6f385c32d564606",
+      "user_id": "usr_1793096639563_e6a5ab86",
+      "created_at": "2026-10-27T10:23:59.999Z",
+      "expires_at": "2026-10-28T10:23:59.999Z",
+      "remember_me": false
+    }
+  ],
+  "reset_tokens": [
+    {
+      "token_hash": "f6dae7219124345dd88b99b7b225f7d7f5a853b42525322aff2c4b779aa746ac",
+      "user_id": "usr_1793094847691_0c5d83d3",
+      "expires_at": "2026-10-27T10:54:07.802Z",
+      "used": true,
+      "created_at": "2026-10-27T09:54:07.802Z"
+    },
+    {
+      "token_hash": "6386488b5b8e655b2422b1c1651a52f536de0e1686b9deb65b95ba181af33d9e",
+      "user_id": "usr_investigator_demo",
+      "expires_at": "2026-10-27T10:55:58.806Z",
+      "used": true,
+      "created_at": "2026-10-27T09:55:58.806Z"
+    },
+    {
+      "token_hash": "068f2a2f936529d8e666580b0e112701d5a1098a50415b472d98eb0ff33f19ca",
+      "user_id": "usr_investigator_demo",
+      "expires_at": "2026-10-27T10:56:29.923Z",
+      "used": true,
+      "created_at": "2026-10-27T09:56:29.923Z"
+    },
+    {
+      "token_hash": "c0742223ebf9460a47c6a6dd62de4e6538a85f76b9aa0bd8506bf1398e8b78d6",
+      "user_id": "usr_1793096639563_e6a5ab86",
+      "expires_at": "2026-10-27T11:23:59.706Z",
+      "used": true,
+      "created_at": "2026-10-27T10:23:59.706Z"
+    }
+  ]
+}

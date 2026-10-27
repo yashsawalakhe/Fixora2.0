@@ -1,0 +1,6 @@
+{
+  "name": "Fixora",
+  "description": "Evidence-driven data reliability, investigation & repair platform. Detect data quality issues, simulate counterfactual repair strategies, track drift, and verify data integrity with an immutable audit trail.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

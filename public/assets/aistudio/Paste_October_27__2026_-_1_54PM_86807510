@@ -1,0 +1,991 @@
+# MASTER BUILD PROMPT — FIXORA 2.0
+## AI-Assisted Data Reliability, Investigation & Repair Platform
+
+Act as a senior full-stack engineer, AI product architect, data engineer, UI/UX designer, and QA engineer. Build a complete, polished, functional, production-minded web application named **Fixora**.
+
+**Tagline:** Fix the noise. Find the truth.
+
+**Product vision:** Fixora is an evidence-driven data reliability platform that detects data quality issues, investigates their root causes, compares alternative repair strategies, predicts potential downstream effects, validates new dataset versions, and maintains a transparent audit trail.
+
+This must be a genuinely dynamic full-stack application. Do not build a static landing page, a frontend-only prototype, or a dashboard full of hardcoded numbers. All essential features must work end to end with real uploaded datasets.
+
+---
+
+# 1. CORE PRODUCT PRINCIPLES
+
+1. Never silently modify uploaded data.
+2. Preserve the original uploaded dataset as an immutable source.
+3. Every repair must be previewed and explicitly approved before application.
+4. Every issue must have a reproducible detection rule and supporting evidence.
+5. Distinguish observed facts, inferred explanations, and uncertain hypotheses.
+6. Never invent missing values or supporting evidence.
+7. Treat AI explanations as optional assistance, not the source of truth.
+8. Ensure the platform functions without AI API credentials using deterministic algorithms.
+9. Make every approved repair traceable, reversible, and associated with a dataset version.
+10. Never reward a repair merely for increasing completeness; correctness and semantic validity matter.
+11. Handle invalid files, large uploads, parsing errors, duplicate headers, missing columns, and malformed records gracefully.
+12. Do not expose uploaded personal or sensitive information in application logs or external AI requests by default.
+
+# 2. TECHNOLOGY STACK
+
+Frontend:
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
+- shadcn/ui
+- Lucide icons
+- Recharts for charts
+- A suitable graph visualization library for data lineage and dependency maps
+- React Router
+- TanStack Query for server-state management
+- React Hook Form and Zod for forms and validation
+
+Backend:
+- Python
+- FastAPI
+- Pandas
+- NumPy
+- openpyxl
+- Pydantic
+- SQLAlchemy
+- SQLite for the initial local version
+- PostgreSQL-compatible database architecture
+- Pytest
+
+Testing:
+- Vitest and React Testing Library for frontend tests
+- Pytest for backend tests
+- Integration tests for uploads, scans, approvals, version creation, and exports
+
+Deployment:
+- Frontend deployable to Vercel or an equivalent platform
+- Backend deployable to Render or an equivalent platform
+- Environment-variable-based configuration
+- Docker support if practical
+- A clear README with local setup and deployment instructions
+
+Use stable, compatible package versions. Do not introduce unnecessary libraries.
+
+# 3. VISUAL DESIGN AND BRAND IDENTITY
+
+Create a premium, modern SaaS interface that feels like a combination of a data investigation console and an enterprise analytics platform.
+
+Design direction:
+- Dark charcoal or deep navy interface with restrained violet and cyan accents.
+- Clean typography and consistent spacing.
+- Strong contrast and accessible text sizes.
+- Elegant cards, tables, charts, status badges, and side panels.
+- Subtle animations for scan progress and transitions.
+- Responsive desktop, tablet, and mobile layouts.
+- Light and dark theme support if practical.
+- Avoid excessive gradients, distracting animations, and generic AI landing-page aesthetics.
+
+Create a reusable design system with:
+- Colors and typography
+- Spacing scale
+- Buttons
+- Form controls
+- Cards
+- Dialogs
+- Tooltips
+- Tables
+- Status badges
+- Toast notifications
+- Loading skeletons
+- Empty states
+- Error states
+- Confirmation dialogs
+
+Use a persistent sidebar for authenticated application pages.
+
+Sidebar:
+1. Overview
+2. Datasets
+3. Data Detective
+4. Repair Lab
+5. Drift Radar
+6. Dependency Map
+7. Validation Rules
+8. Audit & Versions
+9. Trust Passport
+10. Settings
+
+Create a polished public landing page and a separate application workspace.
+
+# 4. PUBLIC LANDING PAGE
+
+Build a complete landing page with:
+
+A. Navbar
+- Fixora logo and brand name
+- Features
+- How it works
+- Use cases
+- Sign in
+- Get started
+
+B. Hero section
+Headline: "Your data deserves evidence, not guesses."
+
+Subheadline:
+"Detect data quality issues, investigate their causes, simulate repair strategies, and verify every change before it reaches your workflow."
+
+Primary CTA: "Analyze your dataset"
+
+Secondary CTA: "Explore the demo"
+
+C. Interactive workflow section
+Show:
+Upload → Detect → Investigate → Simulate → Approve → Verify.
+
+D. Feature sections
+- Data Detective
+- Counterfactual Repair Lab
+- Blast-Radius Analysis
+- Data Drift Radar
+- Adaptive Rule Builder
+- Trust Passport
+
+E. Use cases
+- Education and placement analytics
+- Business intelligence
+- Public-sector datasets
+- Research datasets
+- Operations and reporting
+- Data engineering teams
+
+F. Trust section
+Explain how immutable originals, human approval, evidence-based findings, and audit history protect data integrity.
+
+G. Footer
+Product, documentation, privacy, contact, and relevant navigation links.
+
+All CTA buttons must navigate to working routes or trigger real actions. Do not create dead buttons.
+
+# 5. AUTHENTICATION AND PROJECT MANAGEMENT
+
+Implement:
+- User registration
+- Login and logout
+- Secure password hashing
+- Session or token-based authentication
+- Protected application routes
+- User-level dataset ownership
+- Project creation and selection
+- Dataset listing and deletion with confirmation
+- Dataset metadata and upload timestamps
+
+A user must not access another user's datasets by changing an ID in the URL.
+
+If full authentication cannot be completed in the first development pass, create a clearly documented local-demo mode without pretending it is production authentication. Do not hardcode credentials or expose secrets.
+
+# 6. DATASET INGESTION AND EXPLORER
+
+Support:
+- CSV
+- XLSX
+- A configurable upload-size limit
+- File-type and file-content validation
+- UTF-8 and common CSV encoding handling
+- Empty-file detection
+- Duplicate-header detection
+- Row and column counts
+- Column names and inferred data types
+- Missing-value counts
+- Unique-value counts
+- Basic numeric statistics
+- Date parsing previews
+
+Upload workflow:
+1. User selects or drops a file.
+2. Backend validates the file.
+3. The file is parsed safely.
+4. Dataset metadata is stored.
+5. Original file is preserved.
+6. Dataset explorer opens.
+7. User can launch a scan.
+
+Dataset explorer:
+- Paginated data table
+- Search
+- Column filters
+- Sorting
+- Column profile panels
+- Missing-value indicators
+- Unique-value counts
+- Data-type information
+- Download original dataset
+- Run quality scan button
+
+Do not send entire large datasets to the frontend at once. Use pagination and server-side processing where appropriate.
+
+Store files safely. Generate server-side storage identifiers instead of trusting uploaded filenames. Prevent path traversal and validate all file references.
+
+# 7. QUALITY SCANNING ENGINE
+
+Implement deterministic, testable scanning rules for:
+
+A. Missing values
+- Empty cells
+- Null values
+- Configured missing-value tokens
+
+B. Duplicates
+- Exact duplicate rows
+- Duplicate identifiers
+- Configurable composite-key duplicates
+
+C. Type violations
+- Text in numeric columns
+- Invalid date values
+- Values that violate inferred or user-defined types
+
+D. Format inconsistency
+- Inconsistent casing
+- Whitespace differences
+- Inconsistent date formats
+- Inconsistent phone-number formatting where applicable
+
+E. Validation violations
+- Negative values where prohibited by a configured rule
+- Values outside configured ranges
+- Invalid categories
+- Invalid email formats
+- Unique-key violations
+
+F. Statistical anomalies
+- IQR-based outlier detection
+- Z-score-based anomaly detection where appropriate
+- Distribution changes
+- Unusual category frequencies
+
+Do not label every statistical outlier as incorrect. Outliers are investigation candidates, not automatic errors.
+
+Each issue must include:
+- Unique issue ID
+- Dataset and scan IDs
+- Row index or record identifier
+- Column name
+- Original value
+- Issue category
+- Severity
+- Rule that triggered the issue
+- Evidence and explanation
+- Suggested action, if justified
+- Confidence method, if applicable
+- Current status
+
+Use a reproducible severity system such as Critical, High, Medium, and Low.
+
+Build an explicit quality scoring model. Document the formula and weights. Include completeness, validity, consistency, uniqueness, and other applicable dimensions. Exclude inapplicable dimensions from the denominator rather than treating them as perfect.
+
+Recalculate scores after validation. Clearly label heuristic scores and never present them as universal measures of data correctness.
+
+# 8. FEATURE ONE — DATA DETECTIVE
+
+Create a dedicated investigation workspace.
+
+The interface should contain:
+- Issue summary cards
+- Filters by category, severity, column, and status
+- Searchable issue table
+- Issue details drawer
+- Original record context
+- Evidence and triggering rule
+- Proposed correction
+- Related issues
+- Investigation history
+- Approve, reject, defer, and mark-as-reviewed actions where appropriate
+
+## Root Cause Explorer
+
+Group related findings into potential root-cause clusters.
+
+Examples:
+- A source-system date format changed.
+- A new import contains inconsistent location names.
+- An identifier is duplicated across multiple records.
+- A particular column suddenly contains an unusual number of missing values.
+
+Build an interactive graph:
+- Nodes represent datasets, columns, issues, rules, and supported dependencies.
+- Edges represent observed relationships or explicitly configured dependencies.
+- Clicking a node opens its evidence.
+- Filters control visible issue types and severity.
+
+IMPORTANT:
+- Distinguish correlation from causation.
+- Do not claim a root cause has been proven unless evidence establishes it.
+- Label algorithmically inferred clusters as hypotheses.
+- Every explanation must link back to actual scan findings.
+
+# 9. FEATURE TWO — COUNTERFACTUAL REPAIR LAB
+
+This is the main product differentiator.
+
+Build an interactive environment that lets users compare alternative repair strategies before changing any dataset.
+
+Example:
+A student placement dataset contains missing package values.
+
+Possible scenarios:
+1. Leave missing values unresolved and flag them for review.
+2. Fill values only from a trusted, matching source record.
+3. Apply a configured statistical imputation method where appropriate.
+4. Exclude affected rows from a specific analysis, without deleting them from the master dataset.
+5. Use a custom rule defined by the user.
+
+The simulator must:
+- Run on an isolated copy or transformation plan.
+- Preserve the original dataset.
+- Show a before/after comparison.
+- Count proposed changes.
+- Count remaining unresolved issues.
+- Show validation results.
+- Show newly introduced warnings.
+- Estimate the effect on quality metrics.
+- Show risks and assumptions.
+- Let users compare scenarios side by side.
+- Allow a scenario to be saved.
+- Allow approval only after a preview.
+- Create a derived dataset version after approval.
+
+Do not claim to predict business outcomes that the system cannot measure. Use clear descriptions such as "estimated validation impact" or "potential downstream effect."
+
+Every scenario must have:
+- Scenario ID
+- Strategy
+- Target records
+- Proposed transformations
+- Expected changes
+- Validation results
+- Assumptions
+- Risk classification
+- Creation time
+- Approval status
+
+Create an interactive UI with strategy selectors, comparison cards, affected-record counts, charts, and a detailed cell-level diff.
+
+Make it visually impressive but technically honest.
+
+# 10. FEATURE THREE — BLAST-RADIUS ANALYSIS
+
+Before a repair is approved, show the possible impact on other data elements.
+
+Build a dependency model that can represent:
+- Columns used in calculated fields
+- Configured validation rules
+- Dataset relationships
+- Derived metrics
+- Saved reports
+- User-defined dependencies
+
+Example:
+Changing a department value may affect department-level student counts, reports, and rules that validate department membership.
+
+Display:
+- Directly affected records
+- Potentially affected derived metrics
+- Related validation rules
+- Dependent datasets, if configured
+- Warnings
+- Estimated recomputation requirements
+
+Use an interactive dependency graph and impact summary.
+
+IMPORTANT:
+- Only claim impact on dependencies that are actually registered or computed.
+- If downstream systems are not integrated, label the result as a potential impact rather than claiming that external reports were changed.
+- Recalculate affected metrics when their formulas are available.
+
+# 11. FEATURE FOUR — DATA DRIFT RADAR
+
+Compare dataset versions or successive uploads.
+
+Track:
+- Missing-value rates
+- Data-type changes
+- Category proportions
+- Numeric distributions
+- Min, max, median, and quantiles
+- Unique-value counts
+- Duplicate rates
+- Validation failure rates
+- Schema changes
+- Newly appearing and disappearing categories
+
+Build:
+- Version selector
+- Comparison date range where timestamps exist
+- Drift summary
+- Distribution comparison charts
+- Column-level drill-down
+- Severity and configurable thresholds
+- Downloadable drift report
+
+Use statistical methods suited to the data type when practical. Document limitations, sample-size sensitivity, and thresholds.
+
+Do not call a distribution change an error automatically. It may reflect a legitimate change in the real world.
+
+If only one version exists, offer a clear option to upload a comparison version and explain what cannot yet be calculated.
+
+# 12. FEATURE FIVE — ADAPTIVE RULE BUILDER
+
+Let users create, test, enable, disable, and manage validation rules.
+
+Support rule types:
+- Required field
+- Unique value
+- Numeric range
+- Allowed category
+- Date range
+- Regex or format validation
+- Cross-column comparison
+- Cross-dataset consistency
+- Custom missing-value policy
+
+Example user rule:
+"Every student ID must be unique and graduation year cannot be in the future."
+
+Provide a rule editor with:
+- Rule name
+- Description
+- Target dataset and columns
+- Rule type
+- Configurable parameters
+- Severity
+- Active/inactive status
+- Test rule button
+- Affected-record preview
+- Save and version controls
+
+If natural-language rule generation is included:
+- Parse the request into a structured rule proposal.
+- Show the proposed rule to the user.
+- Validate its syntax and target columns.
+- Test it on the selected dataset.
+- Require confirmation before enabling it.
+- Never execute arbitrary generated Python code or SQL.
+
+The deterministic rule engine must work without an LLM.
+
+# 13. FEATURE SIX — CROSS-DATASET CONSISTENCY
+
+Allow users to select two or more datasets and map corresponding columns.
+
+Examples:
+- Match student IDs between enrollment and placement records.
+- Compare product identifiers across inventory and sales data.
+- Check whether department codes agree across two tables.
+- Find records with conflicting dates or categories.
+
+Implement:
+- Dataset selection
+- Column mapping
+- Key selection
+- Type normalization previews
+- Exact matching
+- Configurable fuzzy matching, if practical
+- Unmatched records
+- Conflicting records
+- Match rationale
+- Confidence and ambiguity handling
+
+Never silently merge datasets. Every proposed mapping and merge must be previewed.
+
+Fuzzy matches must be treated as candidates requiring verification where ambiguity exists.
+
+# 14. FEATURE SEVEN — TRUST PASSPORT
+
+Generate a downloadable HTML or PDF report for a dataset version.
+
+Include:
+- Dataset name and version
+- File metadata
+- Scan timestamp
+- Quality score and documented formula
+- Completeness, validity, consistency, and uniqueness metrics
+- Issue counts by severity and category
+- Repairs proposed
+- Repairs approved and rejected
+- Remaining unresolved findings
+- Validation results after repair
+- Version and provenance information
+- Known limitations
+- Audit references
+
+Create a clean, professional report layout.
+
+Add a unique report ID and generation timestamp. Include a cryptographic hash of the exported artifact or source file where useful, with clear documentation of exactly what is hashed.
+
+Do not call a dataset certified or guaranteed correct. Describe the passport as a report of the checks performed and their results.
+
+# 15. FEATURE EIGHT — DATA LINEAGE TIME MACHINE
+
+Build version history for every dataset.
+
+Required capabilities:
+- Preserve the original version.
+- Create derived versions after approved repairs.
+- Record the parent version.
+- Show version metadata.
+- Compare two versions.
+- Show changed cells and affected records.
+- Show added or removed rows when applicable.
+- Link changes to the approved repair actions.
+- Allow export of a selected version.
+- Support rollback by creating a new version based on a prior version.
+
+Never destroy the original or rewrite historical audit events.
+
+Create an interactive timeline and before/after comparison view.
+
+# 16. FEATURE NINE — DATA RELIABILITY FIREWALL
+
+Provide a workflow to validate new files against saved rules.
+
+Capabilities:
+- Choose a dataset profile or rule set.
+- Upload a new file.
+- Compare schema.
+- Execute validation.
+- Display pass/fail results.
+- Flag critical violations.
+- Quarantine or hold a failed import within Fixora.
+- Allow an authorized user to review and override with a reason.
+- Record all actions in the audit log.
+
+For the initial implementation, simulate scheduled ingestion with a manual upload-and-check workflow. Do not pretend to monitor external systems continuously unless actual integrations exist.
+
+# 17. DATABASE SCHEMA
+
+Use SQLAlchemy models and appropriate indexes.
+
+Suggested tables:
+
+users
+- id
+- email
+- password_hash
+- created_at
+
+projects
+- id
+- owner_id
+- name
+- created_at
+
+datasets
+- id
+- owner_id
+- project_id
+- name
+- original_filename
+- file_type
+- row_count
+- column_count
+- original_storage_key
+- created_at
+
+dataset_versions
+- id
+- dataset_id
+- version_number
+- parent_version_id
+- storage_key
+- schema_snapshot
+- created_at
+- created_by
+
+scans
+- id
+- dataset_version_id
+- status
+- quality_score
+- score_details
+- started_at
+- completed_at
+
+issues
+- id
+- scan_id
+- record_identifier
+- row_index
+- column_name
+- category
+- severity
+- rule_id
+- evidence
+- explanation
+- status
+
+repair_scenarios
+- id
+- dataset_version_id
+- name
+- strategy
+- assumptions
+- risk_level
+- expected_impact
+- created_by
+- created_at
+- status
+
+repair_suggestions
+- id
+- scenario_id
+- issue_id
+- old_value
+- proposed_value
+- rationale
+- confidence_method
+- status
+
+repair_actions
+- id
+- scenario_id
+- dataset_version_id
+- approved_by
+- decision
+- decision_reason
+- created_at
+
+validation_rules
+- id
+- owner_id
+- dataset_id
+- name
+- rule_type
+- parameters
+- severity
+- enabled
+- version
+- created_at
+
+dataset_dependencies
+- id
+- source_dataset_id
+- source_column
+- target_dataset_id
+- target_column
+- dependency_type
+- configuration
+
+audit_logs
+- id
+- actor_id
+- dataset_id
+- action
+- target_type
+- target_id
+- timestamp
+- details
+
+trust_passports
+- id
+- dataset_version_id
+- report_id
+- report_hash
+- created_at
+
+Adjust the schema where needed. Add foreign keys, indexes, uniqueness constraints, and migrations as appropriate.
+
+Store structured metadata as JSON only where justified. Keep queryable relationships relational.
+
+# 18. API ENDPOINTS
+
+Implement REST APIs with Pydantic request and response schemas.
+
+Authentication:
+- POST /api/auth/register
+- POST /api/auth/login
+- POST /api/auth/logout
+- GET /api/auth/me
+
+Projects:
+- GET /api/projects
+- POST /api/projects
+- GET /api/projects/{project_id}
+
+Datasets:
+- POST /api/datasets/upload
+- GET /api/datasets
+- GET /api/datasets/{dataset_id}
+- DELETE /api/datasets/{dataset_id}
+- GET /api/datasets/{dataset_id}/preview
+- GET /api/datasets/{dataset_id}/profile
+
+Scanning:
+- POST /api/datasets/{dataset_id}/scan
+- GET /api/scans/{scan_id}
+- GET /api/scans/{scan_id}/issues
+- GET /api/issues/{issue_id}
+
+Repairs:
+- POST /api/repair-scenarios
+- GET /api/repair-scenarios/{scenario_id}
+- POST /api/repair-scenarios/{scenario_id}/simulate
+- POST /api/repair-scenarios/{scenario_id}/approve
+- POST /api/repair-scenarios/{scenario_id}/reject
+- GET /api/datasets/{dataset_id}/diff
+
+Validation:
+- GET /api/datasets/{dataset_id}/rules
+- POST /api/datasets/{dataset_id}/rules
+- POST /api/rules/{rule_id}/test
+- PATCH /api/rules/{rule_id}
+
+Drift:
+- POST /api/drift/compare
+- GET /api/drift/{comparison_id}
+
+Dependencies:
+- GET /api/datasets/{dataset_id}/dependencies
+- POST /api/dependencies
+- POST /api/impact/analyze
+
+Versions and reports:
+- GET /api/datasets/{dataset_id}/versions
+- POST /api/datasets/{dataset_id}/rollback
+- GET /api/datasets/{dataset_id}/export
+- POST /api/datasets/{dataset_id}/passport
+- GET /api/passports/{passport_id}
+
+Audit:
+- GET /api/datasets/{dataset_id}/audit-logs
+
+Add pagination, consistent error responses, request validation, and appropriate authorization checks.
+
+# 19. FRONTEND ROUTES
+
+Create the following routes:
+
+Public:
+- /
+- /features
+- /how-it-works
+- /login
+- /register
+- /demo
+
+Application:
+- /app
+- /app/datasets
+- /app/datasets/upload
+- /app/datasets/:datasetId
+- /app/datasets/:datasetId/investigate
+- /app/datasets/:datasetId/repair-lab
+- /app/datasets/:datasetId/drift
+- /app/datasets/:datasetId/lineage
+- /app/datasets/:datasetId/rules
+- /app/datasets/:datasetId/versions
+- /app/datasets/:datasetId/passport
+- /app/audit
+- /app/settings
+
+Use shared layouts, route guards, reusable components, and typed API clients.
+
+# 20. DASHBOARD REQUIREMENTS
+
+All dashboard values must come from actual database records and scan results.
+
+Show:
+- Total datasets
+- Average or selected-dataset quality score
+- Open issues
+- Approved repairs
+- Recent scans
+- Recent activity
+- Issue distribution
+- Quality trends by version
+- Dataset status
+- Quick upload
+- Resume investigation
+
+Handle empty states properly. If there are no datasets, show a useful onboarding action and an option to load a clearly labeled demo dataset.
+
+Never show fabricated live metrics as real user activity.
+
+# 21. AI INTEGRATION
+
+AI is optional and must be isolated behind a service interface.
+
+Use it only for appropriate tasks such as:
+- Plain-language explanations of existing evidence
+- Suggestions for validation rules
+- Summaries of issue clusters
+- Documentation for a repair scenario
+
+Requirements:
+- Read the API key from environment variables.
+- Never expose the key to the frontend.
+- Never send sensitive dataset content externally without explicit user consent.
+- Prefer sending minimized, redacted evidence.
+- Use structured outputs and validate them.
+- Mark AI-generated explanations clearly.
+- Do not let the AI execute arbitrary code.
+- Do not let the AI apply repairs directly.
+- Ground every explanation in known evidence.
+- If AI is unavailable, continue to operate using deterministic rules.
+
+Create an AI settings page with a clear enabled/disabled state if AI integration is implemented.
+
+# 22. SECURITY AND RELIABILITY
+
+Implement:
+- Server-side input validation
+- Upload-size and file-type limits
+- Safe parsing
+- Authentication and authorization
+- Dataset ownership checks
+- Secure password hashing
+- Environment-variable secrets
+- CORS configuration
+- Rate limiting where practical
+- Safe file storage
+- Safe export generation
+- Protection against path traversal
+- SQL injection protection through parameterized ORM usage
+- No arbitrary generated-code execution
+- No sensitive row contents in routine logs
+- Clear exception handling
+- Audit logging for sensitive actions
+
+For larger datasets, avoid loading or returning unnecessary data. Document limits and use streaming or chunked processing where appropriate.
+
+# 23. DEMO DATA AND DEMONSTRATION MODE
+
+Create a reproducible sample dataset containing realistic, fictional records with:
+- Missing values
+- Duplicate records
+- Inconsistent capitalization
+- Invalid date formats
+- Invalid category values
+- Numeric anomalies
+- Conflicting records
+
+Label it clearly as fictional demo data.
+
+Provide a one-click "Load demo dataset" workflow. It must use the same parsing, scanning, investigation, simulation, approval, and export code paths as a real uploaded dataset.
+
+Create a demo guide:
+1. Load the sample dataset.
+2. Run a scan.
+3. Open Data Detective.
+4. Investigate a finding.
+5. Compare at least two repair strategies.
+6. View the blast-radius analysis.
+7. Approve one repair.
+8. Inspect the newly created dataset version.
+9. Compare version drift.
+10. Generate and download the Trust Passport.
+
+Ensure the demonstration is repeatable and works without external API keys.
+
+# 24. TESTING REQUIREMENTS
+
+Write tests for:
+- CSV upload
+- XLSX upload
+- Invalid file rejection
+- Duplicate headers
+- Empty datasets
+- Missing-value detection
+- Duplicate detection
+- Type validation
+- Outlier flagging
+- Custom validation rules
+- Repair simulation without source mutation
+- Approval and derived-version creation
+- Rejection without applying a change
+- Version comparison
+- Drift calculations
+- Audit event creation
+- Export correctness
+- User authorization
+- Invalid dataset IDs
+- Large and malformed input handling
+
+Include at least one integration test that executes:
+Upload → Scan → Investigate → Simulate → Approve → Validate → Export.
+
+# 25. DEVELOPMENT EXECUTION RULES
+
+Follow this sequence:
+
+Phase 1: Project foundation
+- Inspect the environment and existing files.
+- Create the frontend and backend structure.
+- Set up dependencies, configuration, database, and routing.
+- Confirm both applications start.
+
+Phase 2: Functional core
+- Implement upload and dataset preview.
+- Implement the deterministic quality engine.
+- Implement issue listing and evidence.
+- Implement simulation and approval.
+- Implement immutable dataset versions.
+- Implement validation and exports.
+
+Phase 3: Differentiating features
+- Build Data Detective root-cause hypotheses.
+- Build Counterfactual Repair Lab.
+- Build Blast-Radius Analysis.
+- Build Data Drift Radar.
+- Build Adaptive Rule Builder.
+- Build Trust Passport and lineage history.
+
+Phase 4: Product polish
+- Implement dashboard charts and metrics.
+- Add loading, empty, and error states.
+- Improve accessibility and responsive layouts.
+- Add optional AI explanations.
+- Add the demo dataset and walkthrough.
+
+Phase 5: Verification
+- Run frontend and backend tests.
+- Fix build errors and broken imports.
+- Verify API integration.
+- Test the entire workflow.
+- Document deployment and environment configuration.
+
+Do not merely print code snippets or a proposed architecture. Create and edit the actual project files in the available workspace if your environment supports file creation.
+
+Before considering the project complete:
+- Run the frontend build.
+- Run backend tests.
+- Verify that all routes load.
+- Verify that all important buttons perform real actions.
+- Verify that approved repairs produce a new version.
+- Verify that the original data remains unchanged.
+- Verify that exported data reflects approved changes only.
+- Provide a concise implementation report listing completed features, tests executed, known limitations, and startup instructions.
+
+If you cannot finish every feature in one pass, prioritize a fully functional end-to-end core over superficial implementations of every advanced feature. Clearly identify anything incomplete instead of claiming it works.
+
+# 26. EXPECTED DELIVERABLES
+
+Produce:
+1. Complete React frontend.
+2. Complete FastAPI backend.
+3. Database models and initialization or migration scripts.
+4. Working upload, scan, investigate, simulate, approve, validate, and export workflow.
+5. Interactive dashboard.
+6. Data Detective.
+7. Counterfactual Repair Lab.
+8. Blast-Radius Analysis.
+9. Data Drift Radar.
+10. Adaptive Rule Builder.
+11. Cross-dataset consistency checking.
+12. Trust Passport report generation.
+13. Version history and audit logs.
+14. Fictional sample dataset.
+15. Automated tests.
+16. README.
+17. `.env.example` containing placeholder names only, never real secrets.
+18. Deployment instructions.
+
+**Final acceptance criterion:** A new user must be able to start Fixora, load or upload a real dataset, discover actual quality issues, inspect the evidence, simulate a repair, approve or reject it, create a new version, verify the result, and export both the cleaned dataset and its quality report.
+
+Build Fixora as a trustworthy data investigation and repair product—not merely a data cleaner with an AI chatbot.
